@@ -105,23 +105,30 @@ void convert(char *copyarrstring){
                     {
                         cout<<"\n ''''''"<<topoutputstack;
                         char popped,tempstack[20];
-                        int toptempstack=0;
+                        int toptempstack=-1;
                         while((int)outputstack[topoutputstack]!='(')
                         {
-
+                            cout<<"\n outputstack top"<<outputstack[topoutputstack];
                             popped=pop(outputstack,topoutputstack);
+                            cout<<"\n popped"<<popped;
                             topoutputstack--;
+                            cout<<"\n outputstack top after popping"<<outputstack[topoutputstack];
                             toptempstack=push(tempstack,toptempstack,popped);
                         }
-                        topoutputstack--;
+                        cout<<"\n after while:"<<outputstack[topoutputstack];
+                        cout<<"\n symbolstack top"<<symbolstack[topsymbolstack];
                         popped=pop(symbolstack,topsymbolstack);
                         topsymbolstack--;
+                        topoutputstack--;//to over write the bracket position
+                        cout<<"\ntopoutpstack:"<<topoutputstack;
                         topoutputstack=push(outputstack,topoutputstack,popped);
+                        cout<<"\n outputstack top after symb is pushed"<<outputstack[0]<<outputstack[topoutputstack];
+                        cout<<"\n tempsta top"<<toptempstack;
                         for(int j=toptempstack;j>=0;j--)
                         {
-                            popped=pop(tempstack,toptempstack);
+                            popped=pop(tempstack,j);
                             toptempstack--;
-                            outputstack[topoutputstack++]=popped;
+                            topoutputstack=push(outputstack,topoutputstack,popped);
                         }
                         outputstack[topoutputstack+1]='\0';
                     }
