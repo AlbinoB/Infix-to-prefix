@@ -72,27 +72,6 @@ void convert(char *copyarrstring){
     int i=0,topsymbolstack=-1,topoutputstack=-1;
     while(copyarrstring[i]!='\0')
     {
-        if(isempty(topoutputstack)==1)
-                    {
-                        cout<<"\n output:";
-                        cout<<"Stack underflow!!!";
-                    }
-                    else
-                    {
-                        cout<<"\n output:";
-                       display(outputstack);
-                    }
-                    if(isempty(topsymbolstack)==1)
-                    {
-                       cout<<"\n symbol:";
-                        cout<<"Stack underflow!!!";
-                    }
-                    else
-                    {
-                         cout<<"\n symbol:";
-                         display(symbolstack);
-                    }
-        cout<<"\n i:"<<i;
        if((int)copyarrstring[i]==')'||(int)copyarrstring[i]==']'||(int)copyarrstring[i]=='}')
         {
                  if(isempty(topsymbolstack)==1&&i==0)
@@ -103,27 +82,18 @@ void convert(char *copyarrstring){
                 {
                    if((int)copyarrstring[i]==')')
                     {
-                        cout<<"\n ''''''"<<topoutputstack;
                         char popped,tempstack[20];
                         int toptempstack=-1;
                         while((int)outputstack[topoutputstack]!='(')
                         {
-                            cout<<"\n outputstack top"<<outputstack[topoutputstack];
                             popped=pop(outputstack,topoutputstack);
-                            cout<<"\n popped"<<popped;
                             topoutputstack--;
-                            cout<<"\n outputstack top after popping"<<outputstack[topoutputstack];
                             toptempstack=push(tempstack,toptempstack,popped);
                         }
-                        cout<<"\n after while:"<<outputstack[topoutputstack];
-                        cout<<"\n symbolstack top"<<symbolstack[topsymbolstack];
                         popped=pop(symbolstack,topsymbolstack);
                         topsymbolstack--;
                         topoutputstack--;//to over write the bracket position
-                        cout<<"\ntopoutpstack:"<<topoutputstack;
                         topoutputstack=push(outputstack,topoutputstack,popped);
-                        cout<<"\n outputstack top after symb is pushed"<<outputstack[0]<<outputstack[topoutputstack];
-                        cout<<"\n tempsta top"<<toptempstack;
                         for(int j=toptempstack;j>=0;j--)
                         {
                             popped=pop(tempstack,j);
@@ -136,24 +106,33 @@ void convert(char *copyarrstring){
                     {
                         if((int)copyarrstring[i]==']'||(int)copyarrstring[i]=='}')
                         {
-                            char popped;
-                             while((int)symbolstack[topsymbolstack]!=(int)copyarrstring[i]-2)
-                            {
 
-                                popped=pop(symbolstack,topsymbolstack);
-                                topsymbolstack--;
-                                topoutputstack=push(outputstack,topoutputstack,popped);
-                                outputstack[topoutputstack+1]='\0';
-                                }
-                                popped=pop(symbolstack,topsymbolstack);
-                                topsymbolstack--;
+                            char popped,tempstack[20];
+                            int toptempstack=-1;
+                             while((int)outputstack[topoutputstack]!=(int)copyarrstring[i]-2)
+                            {
+                            popped=pop(outputstack,topoutputstack);
+                            topoutputstack--;
+                            toptempstack=push(tempstack,toptempstack,popped);
                             }
+                            popped=pop(symbolstack,topsymbolstack);
+                            topsymbolstack--;
+                            topoutputstack--;//to over write the bracket position
+                            topoutputstack=push(outputstack,topoutputstack,popped);
+                            for(int j=toptempstack;j>=0;j--)
+                            {
+                                popped=pop(tempstack,j);
+                                toptempstack--;
+                                topoutputstack=push(outputstack,topoutputstack,popped);
+                            }
+                            outputstack[topoutputstack+1]='\0';
                       }
 
 
                     }
                     i++;
         }
+}
         else
         {
             if((int)copyarrstring[i]>64&&(int)copyarrstring[i]<91||(int)copyarrstring[i]>96&&(int)copyarrstring[i]<123||(int)copyarrstring[i]=='('||(int)copyarrstring[i]=='['||(int)copyarrstring[i]=='{')
